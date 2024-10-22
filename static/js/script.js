@@ -5,20 +5,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const fileInfo = document.getElementById('fileInfo');
     const selectedFileName = document.getElementById('selectedFileName');
 
+    // Check if there's a selected animal from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const selectedAnimal = urlParams.get('animal');
+    if (selectedAnimal) {
+        const radio = document.querySelector(`input[value="${selectedAnimal}"]`);
+        if (radio) {
+            radio.checked = true;
+            showAnimal(selectedAnimal);
+        }
+    }
+
     animalRadios.forEach(radio => {
         radio.addEventListener('change', () => {
-            showAnimal(radio.value);
+            const animal = radio.value;
+            history.pushState(null, '', `/animal/${animal}`);
+            showAnimal(animal);
         });
     });
 
     function showAnimal(animal) {
-        fetch('/get_animal', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: `animal=${animal}`,
-        })
+        fetch(`/get_animal/${animal}`)
         .then(response => response.json())
         .then(data => {
             animalImage.innerHTML = `<img src="${data.image}" alt="${animal}">`;
@@ -53,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (data.error) {
                     fileInfo.innerHTML = `<p class="error">${data.error}</p>`;
                 } else {
+                    history.pushState(null, '', `/file/${encodeURIComponent(data.name)}`);
                     fileInfo.innerHTML = `
                         <p><strong>Name:</strong> ${data.name}</p>
                         <p><strong>Size:</strong> ${data.size}</p>

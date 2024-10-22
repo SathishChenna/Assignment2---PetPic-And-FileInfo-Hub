@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect, url_for
 import os
 
 app = Flask(__name__)
@@ -16,10 +16,17 @@ def format_file_size(size_in_bytes):
 def index():
     return render_template('index.html')
 
-@app.route('/get_animal', methods=['POST'])
-def get_animal():
-    animal = request.form.get('animal')
+@app.route('/animal/<animal>')
+def animal_page(animal):
+    return render_template('index.html', selected_animal=animal)
+
+@app.route('/get_animal/<animal>')
+def get_animal(animal):
     return jsonify({'image': f'/static/images/{animal}.jpg'})
+
+@app.route('/file/<filename>')
+def file_page(filename):
+    return render_template('index.html', selected_file=filename)
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
