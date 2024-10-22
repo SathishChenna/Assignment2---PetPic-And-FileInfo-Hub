@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetPic & FileInfo Hub</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>PetPic & FileInfo Hub</h1>
+        <p class="description">View adorable animal pictures and get quick file information in one place!</p>
+        <div class="content">
+            <div class="box animal-box">
+                <h2>Select an Animal</h2>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" id="cat" name="animal" value="cat">
+                        <span class="radio-custom"></span>
+                        Cat
+                    </label>
+                    <label>
+                        <input type="radio" id="dog" name="animal" value="dog">
+                        <span class="radio-custom"></span>
+                        Dog
+                    </label>
+                    <label>
+                        <input type="radio" id="elephant" name="animal" value="elephant">
+                        <span class="radio-custom"></span>
+                        Elephant
+                    </label>
+                </div>
+                <div id="animalImage"></div>
+            </div>
+            <div class="box upload-box">
+                <h2>Select a File</h2>
+                <div class="file-input-wrapper">
+                    <input type="file" id="fileInput">
+                    <label for="fileInput" class="file-label">Choose a file</label>
+                </div>
+                <input type="text" id="selectedFileName" readonly placeholder="No file selected">
+                <div id="fileInfo"></div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
